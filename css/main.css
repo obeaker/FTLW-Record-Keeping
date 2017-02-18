@@ -1,0 +1,55 @@
+blockquote .input-group .form-control {
+    position: relative;
+    z-index: 0;
+    width: 125px;
+    margin-bottom: 0;
+    float: right;
+}
+
+blockquote {
+    width: 450px;
+}
+
+.input-group .form-control:not(:first-child):not(:last-child) {
+    border-radius: 0px 5px 5px 0px;
+}
+
+.input-group[class*=col-] {
+    float: left;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.myGrid {
+    width: 100%;
+  }
+
+header {
+      color: deeppink;
+  }
+
+.hideForm {
+  display: none;
+}
+
+.showForm {
+  display: block;
+}
+
+.navbar-default {
+    background-color: #fdB924;
+    border-color: #333;
+}
+
+.navbar-default .navbar-brand {
+    color: #fff;
+}
+
+.btn-lg, .btn-group-lg>.btn {
+    padding: 8px 16px;
+}
+
+.spacing {
+    margin-left: 5px;
+    margin-top: 3px;
+}

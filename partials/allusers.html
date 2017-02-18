@@ -1,0 +1,58 @@
+ <div class="row">
+   <header>
+       <h3 style="padding-left: 15px;">{{title}}</h3>
+   </header>
+   <br />
+       <table class="table table-striped table-bordered">
+         <thead>
+         <th>Name&nbsp;</th>
+         <th>Email&nbsp;</th>
+         <th>Username&nbsp;</th>
+         <th>Approved&nbsp;</th>
+         <th>Role&nbsp;</th>
+         <th>Locked&nbsp;</th>
+         <th>Action&nbsp;</th>
+         </thead>
+         <tbody>
+             <tr ng-repeat="user in allusers" ng-include="getEditTmp(user)">
+               <script type="text/ng-template" id="display">
+                 <td>{{user.name}}</td>
+                 <td>{{user.email}}</td>
+                 <td>{{user.username}}</td>
+                 <td>{{user.approved | active}}</td>
+                 <td>{{user.role}}</td>
+                 <td>{{user.locked | active}}</td>
+                 <td>
+                   <button type="button" class="btn btn-primary" ng-click="editUser(user)">Edit</button>
+                   <button type="button" ng-show="user.locked === '1'" class="btn btn-primary" ng-click="unlockUser(user)">Unlock</button>
+                 </td>
+              </script>
+              <script type="text/ng-template" id="edit">
+                <td><input type="text" ng-model=user.name class="form-control input-sm"/></td>
+                <td><input type="text" ng-model=user.email class="form-control input-sm"/></td>
+                <td><input type="text" ng-model=user.username class="form-control input-sm"/></td>
+                <td>
+                  <select class="form-control input-sm" ng-model=user.approved>
+                    <option value='1'>Yes</option>
+                    <option value='0'>No</option>
+                  </select>
+                </td>
+                <td>
+                  <select class="form-control input-sm" ng-model=user.role>
+                    <option value='Admin'>Admin</option>
+                    <option value='User'>User</option>
+                  </select>
+                </td>
+                <td>
+                  {{user.locked | active}}
+                </td>
+                <td>
+                 <button type="button" class="btn btn-primary" ng-click="updateUser(user)">Save</button>
+                 <button type="button" class="btn btn-danger" ng-click="reset()">Cancel</button>
+                </td>
+              </script>
+             </tr>
+         </tbody>
+       </table>
+
+</div>

@@ -1,0 +1,184 @@
+﻿<style type="text/css">
+  .form-horizontal input.ng-invalid.ng-dirty {
+    border-color: #FA787E;
+  }
+
+  .form-horizontal input.ng-valid.ng-dirty {
+    border-color: #78FA89;
+  }
+</style>
+<div class="view">
+    <div class="container">
+        <div class="row">
+        <nav class= "navbar navbar-default" role= "navigation" >
+        <div class= "navbar-header" >
+        <a class= "navbar-brand" href= "#/"><i class="glyphicon glyphicon-th-large"></i> Records List </a>
+        <a ng-show="record._id" class= "navbar-brand" href= "#/edit-record/0"><i class="glyphicon glyphicon-plus"></i> Create Record </a>
+        <a ng-show="record._id" class= "navbar-brand pull-right"><i class="glyphicon glyphicon-edit"></i> Currently Editing Record Number: {{record._id}}</a>
+        </div>
+        </nav>
+        <header>
+            <h3>{{title}}</h3>
+        </header>
+        <div class="col-md-12">
+
+<form role="form" name="myForm" class="form-horizontal">
+<div class="row">
+<div class= "form-group" ng-class="{error: myForm.name.$invalid}">
+    <label class= "col-md-2"> Giving Fund Name </label>
+    <div class="col-md-4">
+    <input list="testList" name="name" ng-model="record.recordName" type= "text" class= "form-control" placeholder="Giving Fund name" required/>
+    <datalist id="testList">
+        <option ng-repeat="x1 in names" value="{{x1.fund_name}}">
+    </datalist>
+    <span ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-inline">Giving Fund Name Required</span>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> Cash </label>
+    <div class="col-md-2 input-group">
+    <span class="input-group-addon">$</span>
+    <input name="cash" ng-model="record.cash" type= "number" string-to-number class= "form-control currency" placeholder="Enter Cash" required ng-change="getNewCash()"/>
+  </div>
+  <div class="col-md-2">
+  <span ng-show="myForm.cash.$dirty && myForm.cash.$invalid && !myForm.cash.$error.cash" class="help-inline">Cash Required</span>
+    <span ng-show="myForm.cash.$error.cash" class="help-inline">Cash is not valid</span>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> Less Expense </label>
+    <div class="col-md-2 input-group">
+    <span class="input-group-addon">$</span>
+    <input name="less_expense" ng-model="record.less_expense" type="number" string-to-number class="form-control currency" ng-keyup="getNewCash()"  required/>
+  </div>
+  <div class="col-md-2">
+  <span ng-show="myForm.less_expense.$dirty && myForm.less_expense.$invalid && !myForm.less_expense.$error.less_expense" class="help-inline">Less Expense Required</span>
+    <span ng-show="myForm.less_expense.$error.less_expense" class="help-inline">Less Expense is not valid</span>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> New Cash </label>
+    <div class="col-md-2 input-group">
+    <span class="input-group-addon">$</span>
+    <input name="new_cash" ng-model="record.new_cash" type="number" string-to-number  disabled class= "form-control currency"  placeholder="New Cash" required/>
+  </div>
+  <div class="col-md-2">
+  <span ng-show="myForm.new_cash.$dirty && myForm.new_cash.$invalid && !myForm.new_cash.$error.new_cash" class="help-inline">New Cash Required</span>
+    <span ng-show="myForm.new_cash.$error.new_cash" class="help-inline">New Cash is not valid</span>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> Checks </label>
+    <div class="col-md-2 input-group">
+    <span class="input-group-addon">$</span>
+    <input name="checks" ng-model="record.checks" type= "number" string-to-number class= "form-control currency" placeholder="Enter Check Amount"  ng-keyup="getTotalCash()" required/>
+  </div>
+  <div class="col-md-2">
+  <span ng-show="myForm.checks.$dirty && myForm.checks.$invalid && !myForm.checks.$error.checks" class="help-inline">Checks Required</span>
+    <span ng-show="myForm.checks.$error.checks" class="help-inline">Checks is not valid</span>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> Total </label>
+    <div class="col-md-2 input-group">
+    <span class="input-group-addon">$</span>
+    <input name="total" ng-model="record.total" type= "number" string-to-number disabled class= "form-control currency"placeholder="Total Amount" required/>
+  </div>
+  <div class="col-md-2">
+  <span ng-show="myForm.total.$dirty && myForm.total.$invalid && !myForm.total.$error.total" class="help-inline">Total Required</span>
+    <span ng-show="myForm.total.$error.total" class="help-inline">Total is not valid</span>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> ${{hundred}} </label>
+    <div class="col-md-2">
+    <input name="hundredsCt" ng-model="record.hundredsCt" string-to-number type="number" class= "form-control" />
+    </div>
+    <div class="col-md-2">
+    <label ng-show="record.hundredsCt > 0"> {{hundred * record.hundredsCt | currency}} </label>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> ${{fifty}} </label>
+    <div class="col-md-2">
+    <input name="fiftysCt" ng-model="record.fiftysCt" string-to-number type= "number" class= "form-control" />
+    </div>
+    <div class="col-md-2">
+    <label ng-show="record.fiftysCt > 0"> {{fifty * record.fiftysCt | currency}} </label>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> ${{twenty}} </label>
+    <div class="col-md-2">
+    <input name="twentysCt" ng-model="record.twentysCt" string-to-number type= "number" class= "form-control" />
+    </div>
+    <div class="col-md-2">
+    <label ng-show="record.twentysCt > 0"> {{twenty * record.twentysCt | currency}} </label>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> ${{ten}} </label>
+    <div class="col-md-2">
+    <input name="tensCt" ng-model="record.tensCt" string-to-number type="number" class= "form-control" />
+    </div>
+    <div class="col-md-2">
+    <label ng-show="record.tensCt > 0"> {{ten * record.tensCt | currency}} </label>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> ${{five}} </label>
+    <div class="col-md-2">
+    <input name="fivesCt" ng-model="record.fivesCt" string-to-number type= "number" class= "form-control" />
+    </div>
+    <div class="col-md-2">
+    <label ng-show="record.fivesCt > 0"> {{five * record.fivesCt | currency}} </label>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> ${{one}} </label>
+    <div class="col-md-2">
+    <input name="onesCt" ng-model="record.onesCt" string-to-number type= "number" class= "form-control" />
+    </div>
+    <div class="col-md-2">
+    <label ng-show="record.onesCt > 0">  {{one * record.onesCt | currency}} </label>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> {{coins}} </label>
+    <div class="col-md-2">
+    <input id="coinsCt" ng-model="record.coinsCt" type= "text" class= "form-control" />
+    </div>
+    <div class="col-md-2">
+    <label ng-show="record.coinsCt > 0"> {{record.coinsCt | currency}} </label>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"> Record Date </label>
+    <div class="col-md-4">
+      <label name="recordTodayDate" ng-model="record.recordDate">{{recordTodayDate}} </label>
+    </div>
+</div>
+<div class= "form-group">
+    <label class= "col-md-2"></label>
+    <div class="col-md-4">
+    <a href="#/" class="btn">Cancel</a>
+        <button ng-click="saveRecord(record);"
+                ng-disabled="isClean() || myForm.$invalid"
+                class="btn btn-primary">{{buttonText}}</button>
+        <button ng-click="deleteRecord(record)"
+                ng-show="record._id" class="btn btn-warning">Delete</button>
+    </div>
+</div>
+</div>
+</form>
+
+<script>
+  $(function() {
+    $('#coinsCt').maskMoney();
+  })
+</script>
+
+        </div>
+      </div>
+    </div>
+</div>

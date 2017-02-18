@@ -1,0 +1,96 @@
+ <div class="row">
+    <div class="col-md-12" ng-show="records.length > 0">
+    <nav class= "navbar navbar-default" role= "navigation" >
+    <div class= "navbar-header" >
+    <a class="btn btn-lg btn-success spacing" href="#/edit-record/0"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add new Record</a>
+    <a class="btn btn-lg btn-success spacing" ng-show="showAttendanceBtn(filtered.length,filtered1.length)" href="#/attendance/0"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add Attendance</a>
+    <button ng-click="toggleModal()" ng-show="showSaveBtn(filtered1.length,saved)" class="btn btn-lg btn-success spacing">Save Record</button>
+    </div>
+    </nav>
+    <div ng-show="filtered.length > 0">
+    <header>
+        <h3>{{title}} - {{saved}}</h3>
+    </header>
+    <br />
+        <table class="table table-striped table-bordered">
+          <thead>
+          <th>Record Name&nbsp;</th>
+          <th>Cash&nbsp;</th>
+          <th>Less Expense&nbsp;</th>
+          <th>New Cash&nbsp;</th>
+          <th>Checks&nbsp;</th>
+          <th>Total&nbsp;</th>
+          <th>Action&nbsp;</th>
+          </thead>
+          <tbody>
+              <tr ng-repeat="data in records | filter: recordDate  as filtered">
+                  <td>{{data.recordName}}</td>
+                  <td>{{data.cash | currency}}</td>
+                  <td>{{data.less_expense | currency}}</td>
+                  <td>{{data.new_cash | currency}}</td>
+                  <td>{{data.checks | currency}}</td>
+                  <td>{{data.total | currency}}</td>
+                  <td><a href="#/edit-record/{{data.recordNumber}}" class="btn">&nbsp;<i class="glyphicon glyphicon-edit"></i>&nbsp; Edit Record</a></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><b>Total</b> </td>
+                <td><b>{{ getTotal() | currency }}</b></td>
+                <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+        <table class="table table-striped table-bordered" ng-show="filtered1.length > 0">
+          <thead>
+            <th>Adults&nbsp;</th>
+            <th>Children&nbsp;</th>
+            <th>Total&nbsp;</th>
+            <th>Recorder&nbsp;</th>
+            <th>Action&nbsp;</th>
+          </thead>
+          <tbody>
+              <tr ng-repeat="attend in attendances | filter: recordDate as filtered1">
+                  <td>{{attend.adults}}</td>
+                  <td>{{attend.children}}</td>
+                  <td>{{attend.total}}</td>
+                  <td>{{attend.user}}</td>
+                  <td><input type="hidden" id="attendid" value="{{attend.attendanceNumber}}" />
+                    <a href="#/attendance/{{attend.attendanceNumber}}" class="btn">&nbsp;<i class="glyphicon glyphicon-edit"></i>&nbsp; Edit Attendance</a></td>
+              </tr>
+          </tbody>
+        </table>
+        </div>
+    </div>
+    <div class="col-md-12" ng-show="records.length == 0">
+      <nav class= "navbar navbar-default" role= "navigation" >
+      <div class= "navbar-header" >
+      <a class="btn btn-lg btn-success" href="#/edit-record/0"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add new Record</a>
+      </div>
+      </nav>
+        <div class="col-md-12">
+            <h4>No Records found</h4>
+        </div>
+    </div>
+</div>
+<modal title="Save Today's Records" visible="showModal">
+  <div id="areYouSure">
+    <h2 style="color:red;"> Have you entered all of today's record </h2> <br>
+    <div style="text-align:center;">
+      <button ng-click="SaveYes()" class="btn btn-primary">Yes</button>
+      <button data-dismiss="modal" class="btn btn-danger">No</button>
+    </div>
+  </div>
+  <div id="saveForm" class="hideForm">
+    <form role="form" ng-submit="saveRecorder(attendance);">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="user" ng-model="attendance.user" placeholder="Enter Your Name" />
+      </div>
+      <button ng-disabled="isClean() || myForm.$invalid" type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</modal>
